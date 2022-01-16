@@ -6,6 +6,8 @@ namespace CommandsLib
 {
     public class Commands
     {
+        public string Path { get; set; } = Environment.CurrentDirectory; 
+
         public static void GetFileProperties(FileInfo file)
         {
             Console.WriteLine("---------");
@@ -32,7 +34,7 @@ namespace CommandsLib
             StreamReader streamr;
             try
             {
-                streamr = new StreamReader($@"{Environment.CurrentDirectory}\{F}");
+                streamr = new StreamReader($@"{this.Path}\{F}");
             }
             catch
             {
@@ -40,7 +42,14 @@ namespace CommandsLib
                 return "";
             }
             char[] read = new char[200];
-            streamr.Read(read, 0, 200);
+            try
+            {
+                streamr.Read(read, 0, 200);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The given file can't be read");
+            }
             read.PrintAllElements<char>('\0');
             string output = new string(read).Trim('\0');
             return output;
@@ -112,7 +121,7 @@ namespace CommandsLib
 
         public void CreateDir(string newDir)
         {
-            string path = $@"{Environment.CurrentDirectory}\{newDir}";
+            string path = $@"{this.Path}\{newDir}";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -125,7 +134,7 @@ namespace CommandsLib
 
         public bool CreateFile(string newFile)
         {
-            string path = $@"{Environment.CurrentDirectory}\{newFile}";
+            string path = $@"{this.Path}\{newFile}";
             if (!File.Exists(path))
             {
                 try
@@ -149,7 +158,7 @@ namespace CommandsLib
         public bool DeleteDir(string newDir, string flag = "-f")
         {
             bool check = flag == "-t" ? true : false;
-            string path = $@"{Environment.CurrentDirectory}\{newDir}";
+            string path = $@"{this.Path}\{newDir}";
             if (Directory.Exists(path))
             {
                 try
@@ -165,14 +174,14 @@ namespace CommandsLib
             }
             else
             {
-                Console.WriteLine($"No directory {newDir} to delete in {Environment.CurrentDirectory}");
+                Console.WriteLine($"No directory {newDir} to delete in {this.Path}");
                 return true;
             }
         }
 
         public bool DeleteFile(string F)
         {
-            string path = $@"{Environment.CurrentDirectory}\{F}";
+            string path = $@"{this.Path}\{F}";
             if (File.Exists(path))
             {
                 try
@@ -190,30 +199,30 @@ namespace CommandsLib
             }
             else
             {
-                Console.WriteLine($"No file {F} to delete in {Environment.CurrentDirectory}");
+                Console.WriteLine($"No file {F} to delete in {this.Path}");
                 return true;
             }
         }
 
         public bool RenameFile(string oldFile, string newFile)
         {
-            string path1 = $@"{Environment.CurrentDirectory}\{oldFile}";
+            string path1 = $@"{this.Path}\{oldFile}";
             if (File.Exists(path1))
             {
-                string path2 = $@"{Environment.CurrentDirectory}\{newFile}";
+                string path2 = $@"{this.Path}\{newFile}";
                 File.Move(path1, path2, true);
                 return true;
             }
             else
             {
-                Console.WriteLine($"No file {newFile} to rename in {Environment.CurrentDirectory}");
+                Console.WriteLine($"No file {newFile} to rename in {this.Path}");
                 return false;
             }
         }
 
         public void RenameDir(string oldPath, string newDir)
         {
-            string newPath = $@"{Directory.GetParent(Environment.CurrentDirectory)}\{newDir}";
+            string newPath = $@"{Directory.GetParent(this.Path)}\{newDir}";
             try
             {
                 Directory.Move(oldPath, newPath);
@@ -229,7 +238,7 @@ namespace CommandsLib
             StreamReader streamr;
             try
             {
-                streamr = new StreamReader($@"{Environment.CurrentDirectory}\{f}");
+                streamr = new StreamReader($@"{this.Path}\{f}");
             }
             catch
             {
