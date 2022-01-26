@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>ConsoleApp_</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\SomeClass.csproj" />
+    <ProjectReference Include="..\ClassLibrary2\UnitTestFramework.csproj" />
+    <ProjectReference Include="..\SomeClass\SomeClass.csproj" />
+    <ProjectReference Include="..\UnitTestFramework\UnitTestFramework.csproj" />
+  </ItemGroup>
+
+</Project>
